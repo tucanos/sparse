@@ -537,7 +537,7 @@ mod tests {
         matrix_market::{MTXReader, MTXWriter},
         IterativeParams, Result, SparseMat, SparseMatF64,
     };
-    use rayon::iter::ParallelIterator;
+    use rayon::iter::{IndexedParallelIterator, IntoParallelRefIterator, ParallelIterator};
     use tempfile::NamedTempFile;
 
     fn get_laplacian_2d(ni: usize, nj: usize) -> SparseMatF64 {
@@ -618,6 +618,19 @@ mod tests {
                 }
             }
         }
+    }
+
+    #[test]
+    fn test_enumerate() {
+        let mat = get_laplacian_2d(5, 5);
+
+        let vec = vec![0; mat.n()];
+
+        mat.rows()
+            .zip(vec.par_iter())
+            .enumerate()
+            .panic_fuse()
+            .for_each(|_| {});
     }
 
     #[test]

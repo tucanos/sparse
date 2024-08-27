@@ -53,6 +53,10 @@ impl<'a, T: MatVec> Iterator for RowsIterator<'a, T> {
 
         Some(Row(head))
     }
+
+    fn size_hint(&self) -> (usize, Option<usize>) {
+        (self.length(), Some(self.length()))
+    }
 }
 
 impl<'a, T: MatVec> DoubleEndedIterator for RowsIterator<'a, T> {
@@ -206,6 +210,10 @@ where
         self.data = tail;
 
         Some(RowMut(unsafe { &mut *head }))
+    }
+
+    fn size_hint(&self) -> (usize, Option<usize>) {
+        (self.length(), Some(self.length()))
     }
 }
 
