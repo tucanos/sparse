@@ -6,6 +6,7 @@ use rayon::iter::{
     IntoParallelRefMutIterator, ParallelIterator,
 };
 use rayon::slice::ParallelSliceMut;
+use serde::{Deserialize, Serialize};
 use std::iter::repeat;
 use std::ops::{Add, AddAssign, MulAssign, Sub, SubAssign};
 use std::{fmt::Display, ops::Range};
@@ -182,7 +183,7 @@ impl<'a, T: MatVec> Display for RowMut<'a, T> {
     }
 }
 
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, Serialize, Deserialize)]
 pub struct IterativeParams {
     pub max_iter: usize,
     pub rel_tol: f64,
@@ -199,7 +200,7 @@ impl Default for IterativeParams {
     }
 }
 
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, Serialize, Deserialize)]
 pub enum IterativeType {
     Jacobi,
     Sgs,
