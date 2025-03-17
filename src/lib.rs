@@ -15,6 +15,7 @@ pub mod iterators;
 pub mod matrix_market;
 #[cfg(feature = "nalgebra")]
 pub mod nalgebra;
+pub mod petsc_output;
 
 pub type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
 
